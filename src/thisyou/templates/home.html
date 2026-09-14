@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>thisyou.dev</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, sans-serif;
+        background: #f4f0ff;
+        color: #211b2d;
+      }
+      body { margin: 0; }
+      main { max-width: 680px; margin: 0 auto; padding: 4rem 1.25rem; }
+      h1 { font-size: clamp(2.5rem, 9vw, 5rem); line-height: .9; margin: 0 0 1rem; }
+      p { line-height: 1.5; }
+      form { display: flex; gap: .75rem; margin: 2rem 0; }
+      input, button { border: 2px solid #211b2d; border-radius: .65rem; font: inherit; padding: .75rem 1rem; }
+      input { flex: 1; min-width: 0; }
+      button { background: #ff7ac8; cursor: pointer; font-weight: 700; }
+      .card { background: #fff; border: 2px solid #211b2d; border-radius: 1rem; padding: 1.25rem; box-shadow: .4rem .4rem 0 #211b2d; }
+      .stats { display: flex; gap: 1.5rem; }
+      .error { color: #a11948; font-weight: 700; }
+      @media (max-width: 520px) { form { display: block; } button, input { box-sizing: border-box; width: 100%; margin-bottom: .75rem; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>thisyou.dev</p>
+      <h1>Let the picture speak.</h1>
+      <p>Enter a Bluesky handle. We’ll start with the little card before we build the whole orbit.</p>
+      <form action="/profile" method="post">
+        <label for="handle" hidden>Bluesky handle</label>
+        <input id="handle" name="handle" placeholder="you.bsky.social" required>
+        <button type="submit">Look closer</button>
+      </form>
+      {% if error %}<p class="error">{{ error }}</p>{% endif %}
+      {% if profile %}
+      <section class="card">
+        <h2>{{ profile.display_name }}</h2>
+        <p>@{{ profile.handle }}</p>
+        <p>{{ profile.description }}</p>
+        <div class="stats">
+          <span><strong>{{ profile.followers }}</strong> followers</span>
+          <span><strong>{{ profile.following }}</strong> following</span>
+        </div>
+        <h3>Top interactions</h3>
+        <ul>
+          {% for interaction in profile.top_interactions %}<li>@{{ interaction }}</li>{% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
