@@ -20,6 +20,10 @@
       input { flex: 1; min-width: 0; }
       button { background: #ff7ac8; cursor: pointer; font-weight: 700; }
       .card { background: #fff; border: 2px solid #211b2d; border-radius: 1rem; padding: 1.25rem; box-shadow: .4rem .4rem 0 #211b2d; }
+      .card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+      .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+      .card-info h2 { margin: 0; }
+      .card-info p { margin: 0.25rem 0; }
       .stats { display: flex; gap: 1.5rem; }
       .error { color: #a11948; font-weight: 700; }
       @media (max-width: 520px) { form { display: block; } button, input { box-sizing: border-box; width: 100%; margin-bottom: .75rem; } }
@@ -29,7 +33,7 @@
     <main>
       <p>thisyou.dev</p>
       <h1>Let the picture speak.</h1>
-      <p>Enter a Bluesky handle. We’ll start with the little card before we build the whole orbit.</p>
+      <p>Enter a Bluesky handle. We'll start with the little card before we build the whole orbit.</p>
       <form action="/profile" method="post">
         <label for="handle" hidden>Bluesky handle</label>
         <input id="handle" name="handle" placeholder="you.bsky.social" required>
@@ -38,8 +42,13 @@
       {% if error %}<p class="error">{{ error }}</p>{% endif %}
       {% if profile %}
       <section class="card">
-        <h2>{{ profile.display_name }}</h2>
-        <p>@{{ profile.handle }}</p>
+        <div class="card-header">
+          {% if profile.avatar_url %}<img src="{{ profile.avatar_url }}" alt="{{ profile.display_name }}" class="avatar">{% endif %}
+          <div class="card-info">
+            <h2>{{ profile.display_name }}</h2>
+            <p>@{{ profile.handle }}</p>
+          </div>
+        </div>
         <p>{{ profile.description }}</p>
         <div class="stats">
           <span><strong>{{ profile.followers }}</strong> followers</span>
