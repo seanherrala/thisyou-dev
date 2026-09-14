@@ -19,6 +19,7 @@ class Profile:
     followers: int
     following: int
     top_interactions: tuple[str, ...]
+    avatar_url: str | None = None
 
 
 class ProfileLookupError(RuntimeError):
@@ -82,6 +83,7 @@ def get_profile(handle: str, client: httpx.Client | None = None) -> Profile:
         followers=int(profile_data.get("followersCount") or 0),
         following=int(profile_data.get("followsCount") or 0),
         top_interactions=_top_interactions(feed_data),
+        avatar_url=profile_data.get("avatar"),
     )
 
 
