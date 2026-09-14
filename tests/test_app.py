@@ -31,4 +31,11 @@ def test_profile_page_rejects_blank_handle() -> None:
     response = client.post("/profile", data={"handle": " "})
 
     assert response.status_code == 200
-    assert "Give us a handle first." in response.text
+    assert "Give us a valid Bluesky handle first." in response.text
+
+
+def test_profile_page_rejects_invalid_handle() -> None:
+    response = client.post("/profile", data={"handle": "not a handle"})
+
+    assert response.status_code == 200
+    assert "Give us a valid Bluesky handle first." in response.text

@@ -28,10 +28,27 @@ This project is intentionally a Python-first codebase.
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e .
-python -m thisyou.cli
+python -m pip install -e '.[dev]'
+python -m uvicorn thisyou.app:app --reload
 ```
+
+Open `http://127.0.0.1:8000` in your browser. The health endpoint is available at
+`http://127.0.0.1:8000/health`.
+
+Run the quality checks with:
+
+```bash
+ruff check .
+mypy
+pytest
+```
+
+## Deployment
+
+The `render.yaml` file configures a free Render web service. Merging to `main` deploys the
+application through the connected Render service.
 
 ## Current status
 
-This repository is intentionally scaffolded as a minimal starting point. The next steps are to define the first user/post graph model, ingest pipeline, and analysis pass.
+The web slice currently uses fixture profile data. The next steps are to connect the Bluesky
+API, define the user/post graph model, and add the first analysis pass.
