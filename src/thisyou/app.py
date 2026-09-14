@@ -1,13 +1,15 @@
 """FastAPI application for the first thisyou web slice."""
 
+from pathlib import Path
+
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from .profile_service import Profile, get_profile
+from .profile_service import Profile, get_profile, normalize_handle
 
 app = FastAPI(title="thisyou.dev", version="0.1.0")
-templates = Jinja2Templates(directory="src/thisyou/templates")
+templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
 
 
 @app.get("/health", include_in_schema=False)
@@ -26,12 +28,12 @@ def home(request: Request) -> HTMLResponse:
 
 @app.post("/profile", response_class=HTMLResponse)
 def profile(request: Request, handle: str = Form(...)) -> HTMLResponse:
-    normalized_handle = handle.strip()
+    normalized_handle = normalize_handle(handle)
     profile: Profile | None = None
     error: str | None = None
 
     if not normalized_handle:
-        error = "Give us a handle first."
+        error = "Give us a valid Bluesky handle first."
     else:
         profile = get_profile(normalized_handle)
 
