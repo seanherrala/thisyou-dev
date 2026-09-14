@@ -1,6 +1,8 @@
 from fastapi.testclient import TestClient
+from pytest import MonkeyPatch
 
 from thisyou.app import app
+from thisyou.profile_service import Profile
 
 client = TestClient(app)
 
@@ -19,7 +21,19 @@ def test_home_page_contains_handle_form() -> None:
     assert 'name="handle"' in response.text
 
 
-def test_profile_page_renders_fixture_card() -> None:
+def test_profile_page_renders_profile_card(monkeypatch: MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        "thisyou.app.get_profile",
+        lambda handle: Profile(
+            handle=handle,
+            display_name="Example",
+            description="A test profile.",
+            followers=12,
+            following=34,
+            top_interactions=("friend.bsky.social",),
+        ),
+    )
+
     response = client.post("/profile", data={"handle": "@example.bsky.social"})
 
     assert response.status_code == 200
