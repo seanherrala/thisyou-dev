@@ -2,9 +2,18 @@
 
 ## Development Workflow
 
-We follow a branch-based PR workflow to ensure code quality and maintain a clear history of changes.
+We use a direct-to-main workflow for Copilot-assisted changes to streamline development. Human contributors should follow the branch-based process below.
 
-### Getting Started
+### For Copilot-Assisted Changes
+
+When Copilot makes code changes:
+1. Changes are committed directly to `main`
+2. Tests are run via CI/CD before changes go live
+3. Changes auto-deploy to production via Render once tests pass
+
+This streamlined workflow allows for rapid iteration while maintaining code quality through automated testing.
+
+### For Human Contributors
 
 1. **Create a feature branch** from `main` with a descriptive name:
    ```
@@ -49,6 +58,7 @@ Example: `feat: append .bsky.social to handles without dot segments`
 
 ### Code Review
 
+For human contributors:
 - All changes must go through a Pull Request
 - At least one approval is required before merging
 - Use PRs to discuss changes and maintain code quality
