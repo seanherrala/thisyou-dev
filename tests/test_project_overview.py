@@ -1,7 +1,7 @@
 from thisyou.project_overview import create_project_overview
 
 
-def test_create_project_overview_has_three_signals():
+def test_create_project_overview_has_three_signals() -> None:
     signals = create_project_overview()
 
     assert len(signals) == 3

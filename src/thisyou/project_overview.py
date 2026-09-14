@@ -17,7 +17,9 @@ def create_project_overview() -> list[ProjectSignal]:
     return [
         ProjectSignal(
             name="Identity",
-            description="thisyou.dev is a Bluesky-native visualization tool for observing account patterns.",
+            description=(
+                "thisyou.dev is a Bluesky-native visualization tool for observing account patterns."
+            ),
             focus=["brand", "narrative", "signal clarity"],
             status="scaffolded",
         ),
@@ -29,7 +31,9 @@ def create_project_overview() -> list[ProjectSignal]:
         ),
         ProjectSignal(
             name="Analysis",
-            description="Surface orbits, nests, loops, ratholes, and mutual-boost patterns in context.",
+            description=(
+                "Surface orbits, nests, loops, ratholes, and mutual-boost patterns in context."
+            ),
             focus=["pattern detection", "context", "visual summaries"],
             status="in-progress",
         ),
