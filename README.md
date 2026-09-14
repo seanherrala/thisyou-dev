@@ -48,7 +48,13 @@ pytest
 The `render.yaml` file configures a free Render web service. Merging to `main` deploys the
 application through the connected Render service.
 
+## Bluesky access
+
+The profile form uses Bluesky's public read-only API, so no account credentials are required.
+It requests a public profile and the user's recent author feed to populate the initial card and
+top interactions.
+
 ## Current status
 
-The web slice currently uses fixture profile data. The next steps are to connect the Bluesky
-API, define the user/post graph model, and add the first analysis pass.
+The first Bluesky-backed profile slice is in place. The next steps are to define the user/post
+graph model and add the first analysis pass.

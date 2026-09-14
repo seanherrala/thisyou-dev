@@ -6,7 +6,12 @@ from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from .profile_service import Profile, get_profile, normalize_handle
+from .profile_service import (
+    Profile,
+    ProfileLookupError,
+    get_profile,
+    normalize_handle,
+)
 
 app = FastAPI(title="thisyou.dev", version="0.1.0")
 templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
@@ -35,7 +40,10 @@ def profile(request: Request, handle: str = Form(...)) -> HTMLResponse:
     if not normalized_handle:
         error = "Give us a valid Bluesky handle first."
     else:
-        profile = get_profile(normalized_handle)
+        try:
+            profile = get_profile(normalized_handle)
+        except ProfileLookupError as lookup_error:
+            error = str(lookup_error)
 
     return templates.TemplateResponse(
         request=request,
