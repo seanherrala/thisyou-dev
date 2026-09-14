@@ -26,9 +26,19 @@ class ProfileLookupError(RuntimeError):
 
 
 def normalize_handle(handle: str) -> str | None:
-    """Normalize a Bluesky handle and reject values outside handle syntax."""
+    """Normalize a Bluesky handle and reject values outside handle syntax.
+    
+    If the handle doesn't contain a dot, append .bsky.social to make it a valid DID.
+    """
     clean_handle = handle.strip().lstrip("@").lower()
-    if not clean_handle or len(clean_handle) > 253 or not HANDLE_PATTERN.fullmatch(clean_handle):
+    if not clean_handle or len(clean_handle) > 253:
+        return None
+    
+    # Append .bsky.social if no dot segments present
+    if "." not in clean_handle:
+        clean_handle = f"{clean_handle}.bsky.social"
+    
+    if not HANDLE_PATTERN.fullmatch(clean_handle):
         return None
     return clean_handle
 
